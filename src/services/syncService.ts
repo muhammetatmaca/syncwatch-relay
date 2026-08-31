@@ -131,6 +131,15 @@ class HybridSyncService {
             role: this.role,
           })
         );
+
+        // Disconnect from Supabase after smooth handover to free up the 200 CCU slot
+        setTimeout(() => {
+          if (this.isWssActive && this.realtimeChannel) {
+            console.log('[Handover] ✅ Render WSS fully active. Releasing Supabase connection slot.');
+            this.realtimeChannel.unsubscribe();
+            this.realtimeChannel = null;
+          }
+        }, 2000);
       };
 
       this.wssSocket.onmessage = (event) => {
@@ -141,11 +150,19 @@ class HybridSyncService {
       };
 
       this.wssSocket.onerror = () => {
+        console.warn('[Render WSS] Connection issue, failing over back to Supabase...');
         this.isWssActive = false;
+        if (!this.realtimeChannel && this.currentRoomId) {
+          this.connectSupabaseChannel();
+        }
       };
 
       this.wssSocket.onclose = () => {
+        console.log('[Render WSS] Connection closed, re-engaging Supabase channel if needed...');
         this.isWssActive = false;
+        if (!this.realtimeChannel && this.currentRoomId) {
+          this.connectSupabaseChannel();
+        }
       };
     } catch (err) {
       this.isWssActive = false;
