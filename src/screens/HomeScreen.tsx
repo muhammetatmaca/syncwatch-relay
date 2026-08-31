@@ -162,7 +162,7 @@ export const HomeScreen: React.FC<Props> = ({
         <View style={styles.header}>
           <View>
             <View style={styles.titleRow}>
-              <Text style={[styles.brandTitle, { color: c.contentPrimary }]}>SyncWatch</Text>
+              <Text style={[styles.brandTitle, { color: c.contentPrimary }]}>PairPlay</Text>
               <View style={[styles.dotIndicator, { backgroundColor: c.contentPrimary }]} />
               <View style={[styles.dotIndicator, { backgroundColor: c.contentPrimary }]} />
             </View>

@@ -1,7 +1,7 @@
-﻿{
+{
   "expo": {
-    "name": "twoscreenonepage",
-    "slug": "twoscreenonepage",
+    "name": "PairPlay",
+    "slug": "pairplay",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",

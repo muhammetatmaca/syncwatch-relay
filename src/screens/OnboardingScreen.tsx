@@ -231,7 +231,7 @@ export const OnboardingScreen: React.FC<Props> = ({ onFinish }) => {
       {/* Top Header with Skip Button */}
       <View style={styles.topHeader}>
         <View style={styles.brandRow}>
-          <Text style={[styles.brandLogo, { color: c.contentPrimary }]}>SyncWatch</Text>
+          <Text style={[styles.brandLogo, { color: c.contentPrimary }]}>PairPlay</Text>
           <View style={[styles.brandDot, { backgroundColor: c.contentPrimary }]} />
         </View>
 
