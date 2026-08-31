@@ -42,9 +42,14 @@ import { VideoLinkGuideModal } from '../components/VideoLinkGuideModal';
 interface Props {
   onNavigateToLobby: () => void;
   onNavigateToWatch: () => void;
+  onShowOnboarding?: () => void;
 }
 
-export const HomeScreen: React.FC<Props> = ({ onNavigateToLobby, onNavigateToWatch }) => {
+export const HomeScreen: React.FC<Props> = ({
+  onNavigateToLobby,
+  onNavigateToWatch,
+  onShowOnboarding,
+}) => {
   const { themeMode, toggleTheme, createRoom, joinRoom } = useSyncStore();
   const c = Colors[themeMode];
 
@@ -166,19 +171,33 @@ export const HomeScreen: React.FC<Props> = ({ onNavigateToLobby, onNavigateToWat
             </Text>
           </View>
 
-          <TouchableOpacity
-            style={[styles.themeBtn, { backgroundColor: c.surfaceCard, borderColor: c.borderSubtle }]}
-            onPress={() => {
-              SyncHaptics.codeKeypress();
-              toggleTheme();
-            }}
-          >
-            {themeMode === 'dark' ? (
-              <Sun size={18} color={c.contentPrimary} />
-            ) : (
-              <Moon size={18} color={c.contentPrimary} />
+          <View style={styles.headerRightActions}>
+            {onShowOnboarding && (
+              <TouchableOpacity
+                style={[styles.themeBtn, { backgroundColor: c.surfaceCard, borderColor: c.borderSubtle }]}
+                onPress={() => {
+                  SyncHaptics.codeKeypress();
+                  onShowOnboarding();
+                }}
+              >
+                <Sparkles size={17} color={c.contentPrimary} />
+              </TouchableOpacity>
             )}
-          </TouchableOpacity>
+
+            <TouchableOpacity
+              style={[styles.themeBtn, { backgroundColor: c.surfaceCard, borderColor: c.borderSubtle }]}
+              onPress={() => {
+                SyncHaptics.codeKeypress();
+                toggleTheme();
+              }}
+            >
+              {themeMode === 'dark' ? (
+                <Sun size={18} color={c.contentPrimary} />
+              ) : (
+                <Moon size={18} color={c.contentPrimary} />
+              )}
+            </TouchableOpacity>
+          </View>
         </View>
 
         {/* Tab Switcher */}
@@ -547,6 +566,11 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     marginBottom: 20,
+  },
+  headerRightActions: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 8,
   },
   titleRow: {
     flexDirection: 'row',

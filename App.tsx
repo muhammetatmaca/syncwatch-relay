@@ -3,14 +3,15 @@ import { StyleSheet, View, StatusBar } from 'react-native';
 import { SafeAreaProvider, SafeAreaView } from 'react-native-safe-area-context';
 import { useSyncStore } from './src/store/useSyncStore';
 import { Colors } from './src/theme/colors';
+import { OnboardingScreen } from './src/screens/OnboardingScreen';
 import { HomeScreen } from './src/screens/HomeScreen';
 import { LobbyScreen } from './src/screens/LobbyScreen';
 import { WatchScreen } from './src/screens/WatchScreen';
 
-type CurrentScreen = 'home' | 'lobby' | 'watch';
+type CurrentScreen = 'onboarding' | 'home' | 'lobby' | 'watch';
 
 export default function App() {
-  const [currentScreen, setCurrentScreen] = useState<CurrentScreen>('home');
+  const [currentScreen, setCurrentScreen] = useState<CurrentScreen>('onboarding');
   const { themeMode } = useSyncStore();
   const c = Colors[themeMode];
 
@@ -23,10 +24,15 @@ export default function App() {
         />
 
         <View style={[styles.screenContainer, { backgroundColor: c.surfaceBase }]}>
+          {currentScreen === 'onboarding' && (
+            <OnboardingScreen onFinish={() => setCurrentScreen('home')} />
+          )}
+
           {currentScreen === 'home' && (
             <HomeScreen
               onNavigateToLobby={() => setCurrentScreen('lobby')}
               onNavigateToWatch={() => setCurrentScreen('watch')}
+              onShowOnboarding={() => setCurrentScreen('onboarding')}
             />
           )}
 
